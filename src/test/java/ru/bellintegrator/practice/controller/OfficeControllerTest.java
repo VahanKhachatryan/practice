@@ -36,6 +36,7 @@ public class OfficeControllerTest {
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
+        assertNotNull(response.getBody().getClass().getName());
     }
 
     private String createURLWithPort(String uri) {

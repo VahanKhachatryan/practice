@@ -35,6 +35,7 @@ public class DocumentControllerTest {
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
+        assertNotNull(response.getBody().getClass().getName());
 
     }
 

@@ -35,6 +35,9 @@ public class UserControllerTest {
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
+        assertNotNull(response.getBody().getClass().getName());
+
+
 
     }
 
