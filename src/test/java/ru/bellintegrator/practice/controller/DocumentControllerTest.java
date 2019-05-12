@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.Assert;
 import ru.bellintegrator.practice.PracticeApplication;
 import ru.bellintegrator.practice.model.Document;
 
@@ -27,16 +28,18 @@ public class DocumentControllerTest {
     private int port;
 
     @Test
-    public void getDoc() {
-        final ResponseEntity response = restTemplate.exchange(
-                createURLWithPort("/api/document"),
-                HttpMethod.GET, null, Document.class);
+    public void documents() {
+        String urlWithPort = createURLWithPort("/api/documents");
 
+        final ResponseEntity<Document[]> response = restTemplate.exchange(
+                urlWithPort,
+                HttpMethod.GET, null, Document[].class);
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertNotNull(response.getBody().getClass().getName());
-
+        Document[] body = response.getBody();
+        assertNotNull(body[0]);
+        Assert.isInstanceOf(Document.class, body[0]);
     }
 
     private String createURLWithPort(String uri) {

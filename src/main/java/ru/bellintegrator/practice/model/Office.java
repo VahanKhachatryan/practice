@@ -4,6 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 /**
  * Create  class - Office
  */
@@ -11,59 +17,29 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
+@Entity
+@Table(name = "OFFICE")
 public class Office {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Version
+    private int version;
+    @Column
     private String name;
+    @Column
     private String address;
+    @Column
     private String phone;
+    @Column(name = "is_active")
     private Boolean isActive;
-    private Organization organization;
 
+//    @ManyToMany(mappedBy = "offices")
+//    @JoinTable(
+//            name = "OFFICE_ORGANIZATION",
+//            joinColumns = {@JoinColumn(name = "office_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "organization_id")})
+//    Set<Organization> organizations = new HashSet<>();
 
-    /**
-     * Create another class inside our class - Builder
-     */
-    public static class Builder {
-        private Office newOffice;
-
-        public Builder() {
-            newOffice = new Office();
-        }
-
-
-        public Office.Builder withId(int id) {
-            newOffice.id = id;
-            return this;
-        }
-
-        public Office.Builder withName(String name) {
-            newOffice.name = name;
-            return this;
-        }
-
-        public Office.Builder withAddress(String address) {
-            newOffice.address = address;
-            return this;
-        }
-
-        public Office.Builder withPhone(String phone) {
-            newOffice.phone = phone;
-            return this;
-        }
-
-        public Office.Builder withIsActive(Boolean isActive) {
-            newOffice.isActive = isActive;
-            return this;
-        }
-
-        public Office.Builder withOrganization(Organization org) {
-            newOffice.organization = org;
-            return this;
-        }
-
-        public Office build() {
-            return newOffice;
-        }
-    }
 
 }

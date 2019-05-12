@@ -4,56 +4,65 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
 /**
  * Create  class - Document
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-
+@Entity
+@Table(name = "DOCUMENT")
 public class Document {
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Version
+    private int version;
+    @Column
     private String code;
+    @Column
     private String name;
+    @Column
     private String date;
 
-    /**
-     * Create another class inside our class - Builder
-     */
-    public static class Builder {
-        private Document newDocument;
-
-        public Builder() {
-            newDocument = new Document();
-        }
-
-
-        public Document.Builder withId(int id) {
-            newDocument.id = id;
-            return this;
-        }
-
-        public Document.Builder withCode(String code) {
-            newDocument.code = code;
-            return this;
-        }
-
-        public Document.Builder withName(String name) {
-            newDocument.name = name;
-            return this;
-        }
-
-
-        public Document.Builder withDate(String date) {
-            newDocument.date = date;
-            return this;
-        }
-
-        public Document build() {
-            return newDocument;
-        }
+    public Document(String code, String name, String date) {
+        this.code = code;
+        this.name = name;
+        this.date = date;
     }
 
+    public Document() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 }

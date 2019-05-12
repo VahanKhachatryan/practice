@@ -1,48 +1,52 @@
 package ru.bellintegrator.practice.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import javax.persistence.*;
 
 /**
  * Create  class - Country
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-
+@Entity
+@Table(name = "COUNTRY")
 public class Country {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Version
+    private int version;
+    @Column(name = "code")
     private String code;
+    @Column(name = "name")
     private String name;
 
-    /**
-     * Create another class inside our class - Builder
-     */
-    public static class Builder {
-        private Country newCountry;
+    public Country(String code, String name) {
+        this.code = code;
+        this.name = name;
+    }
 
-        public Builder() {
-            newCountry = new Country();
-        }
+    public Country() {
+    }
 
-        public Builder withId(int id) {
-            newCountry.id = id;
-            return this;
-        }
+    public int getId() {
+        return id;
+    }
 
-        public Builder withCode(String code) {
-            newCountry.code = code;
-            return this;
-        }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-        public Builder withName(String name) {
-            newCountry.name = name;
-            return this;
-        }
+    public String getCode() {
+        return code;
+    }
 
-        public Country build() {
-            return newCountry;
-        }
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
