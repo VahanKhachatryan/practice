@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.bellintegrator.practice.service.organization.OrganizationService;
@@ -15,7 +16,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
  * Organization controller
- * This  rest controller is responsible for findAllByOrgNameAndInnAndIsActive the methods for the model: "Organization"
  */
 @Api(value = "OrganizationController", description = "Управление информацией об организации")
 @RestController
@@ -27,7 +27,10 @@ public class OrganizationController {
         this.organizationService = organizationService;
     }
 
-    @ApiOperation(value = "Добавить новую организацию", httpMethod = "POST")
+    /**
+     * This method add Organization
+     */
+    @ApiOperation(value = "Add organization", httpMethod = "POST")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success", response = String.class),
             @ApiResponse(code = 404, message = "Not Found"),
@@ -35,10 +38,13 @@ public class OrganizationController {
     @PostMapping("/save")
     public ResponseEntity organization(@RequestBody OrganizationView organizationView) {
         organizationService.add(organizationView);
-        return ResponseEntity.ok("success");
+        return ResponseEntity.status(HttpStatus.OK).body(organizationView.name);
     }
 
-    @ApiOperation(value = "Получить список всех организации", httpMethod = "GET")
+    /**
+     * This method return organization by parameter
+     */
+    @ApiOperation(value = "Get organization by parameter", httpMethod = "POST")
     @PostMapping("/list")
     public ResponseEntity<List<OrganizationView>> organizations(@RequestParam(name = "name") String name,
                                                                 @RequestParam(name = "inn") String inn,
@@ -48,11 +54,26 @@ public class OrganizationController {
 
     }
 
-    @ApiOperation(value = "Получить список всех организации", httpMethod = "GET")
+
+    /**
+     * This method return organization by Id
+     */
+    @ApiOperation(value = "Get organization by Id", httpMethod = "GET")
     @GetMapping("/{id}")
     public ResponseEntity<OrganizationView> organizationById(@PathVariable("id") int id) {
         OrganizationView orgById = organizationService.getOrgById(id);
         return ResponseEntity.ok(orgById);
 
+
+    }
+
+    /**
+     * This method return update of the organization details
+     */
+    @PutMapping(value = "/update")
+    @ApiOperation(value = "The update of the organization details", tags = "Organization")
+    public ResponseEntity updateOrganization(@RequestBody OrganizationView organizationView) {
+        organizationService.update(organizationView);
+        return ResponseEntity.ok(organizationView);
     }
 }

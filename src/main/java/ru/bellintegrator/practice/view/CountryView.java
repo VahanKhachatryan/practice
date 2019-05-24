@@ -14,12 +14,12 @@ public class CountryView {
 
     @Size(max = 15)
     @NotEmpty(message = "code cannot be null")
-    @ApiModelProperty(value = "Код", example = "126")
+    @ApiModelProperty(value = "Code", example = "126")
     public String code;
 
     @Size(max = 50)
     @NotEmpty(message = "name cannot be null")
-    @ApiModelProperty(value = "Имя", example = "Иван")
+    @ApiModelProperty(value = "Name", example = "Иван")
     public String name;
 
     @Override

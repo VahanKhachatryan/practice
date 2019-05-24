@@ -15,8 +15,8 @@ import java.util.Set;
 public class OrganizationView {
 
     @NotEmpty
-    @ApiModelProperty(value = "Уникальный идентификатор", hidden = true, example = "1")
-    public String id;
+    @ApiModelProperty(value = "Id", hidden = true, example = "1")
+    public int id;
 
     @Size(max = 50)
     @NotEmpty(message = "name cannot be null")
@@ -48,12 +48,82 @@ public class OrganizationView {
     @ApiModelProperty(value = "office", example = "IBM office")
     public Set<Office> offices;
 
-    @Override
-    public String toString() {
-        return "{id:" + id + ";name:" + name + ";fullName:" + fullName + ";inn:" + inn + ";kpp:" + kpp + ";address:" + address + ";phone:" + phone + ";isActive:" + isActive + ";offices:" + offices + "}";
+    public int getId() {
+        return id;
     }
 
-//    public String getList() {
-//        return "{id:" + id + ";name:" + name + ";isActive:" + isActive +"}";
-//    }
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getInn() {
+        return inn;
+    }
+
+    public void setInn(String inn) {
+        this.inn = inn;
+    }
+
+    public String getKpp() {
+        return kpp;
+    }
+
+    public void setKpp(String kpp) {
+        this.kpp = kpp;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean active) {
+        isActive = active;
+    }
+
+    public Set<Office> getOffices() {
+        return offices;
+    }
+
+    public void setOffices(Set<Office> offices) {
+        this.offices = offices;
+    }
+
+    @Override
+    public String toString() {
+        return "{id:" + id + ";name:" + name + ";fullName:" + fullName + ";inn:" + inn + ";kpp:" + kpp + ";address:" +
+                address + ";phone:" + phone + ";isActive:" + isActive + ";offices:" + offices+ "}";
+    }
+
 }

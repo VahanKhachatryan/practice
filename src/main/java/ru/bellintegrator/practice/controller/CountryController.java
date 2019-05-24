@@ -14,7 +14,6 @@ import java.util.List;
 
 /**
  * Country controller
- * This  rest controller is responsible for findAllByOrgNameAndInnAndIsActive the methods for the model: "Country"
  */
 @Api(value = "CountryController", description = "Управление информацией о странах")
 @RestController
@@ -31,7 +30,7 @@ public class CountryController {
     /**
      * This method returns all countries
      */
-    @ApiOperation(value = "Получить список всех стран", httpMethod = "GET")
+    @ApiOperation(value = "Get all countries", httpMethod = "GET")
     @GetMapping("/countries")
     public ResponseEntity<List<CountryView>> countries() {
         List<CountryView> countries = countryService.countries();

@@ -1,106 +1,78 @@
 package ru.bellintegrator.practice.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ru.bellintegrator.practice.service.user.UserServiceImpl;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import ru.bellintegrator.practice.service.user.UserService;
+import ru.bellintegrator.practice.view.UserView;
+
+import java.util.List;
 
 /**
  * User controller
- * This  rest controller is responsible for findAllByOrgNameAndInnAndIsActive the methods for the model: "User"
  */
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/user")
 public class UserController {
+    private final UserService userService;
 
-    /*todo
-    api/user/list
-In (фильтр):
-{
-  “officeId”:””, //обязательный параметр
-  “firstName”:””,
-  “lastName”:””,
-  “middleName”:””,
-  “position”,””,
-  “docCode”:””,
-  “citizenshipCode”:””
-}
-Out:
-{
-  “id”:””,
-  “firstName”:””,
-  “secondName”:””,
-  “middleName”:””,
-  “position”:””
-}
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
-10. api/user/{id}
-method:GET
-Out:
-{
-  “id”:””,
-  “firstName”:””,
-  “secondName”:””,
-  “middleName”:””,
-  “position”:””
-  “phone”,””,
-  “docName”:””,
-  “docNumber”:””,
-  “docDate”:””,
-  “citizenshipName”:””,
-  “citizenshipCode”:””,
-  “isIdentified”:”true”
-}
-
-11. api/user/update
-In:
-{
-  “id”:””, //обязательный параметр
-  “officeId”:””,
-  “firstName”:””, //обязательный параметр
-  “secondName”:””,
-  “middleName”:””,
-  “position”:”” //обязательный параметр
-  “phone”,””,
-  “docName”:””,
-  “docNumber”:””,
-  “docDate”:””,
-  “citizenshipCode”:””,
-  “isIdentified”:”true” //пример
-}
-
-Out:
-{
-    “result”:”success”
-}
-
-12. api/user/save
-In:
-{
-  “officeId”:””, //обязательный параметр
-  “firstName”:””, //обязательный параметр
-  “secondName”:””,
-  “middleName”:””,
-  “position”:”” //обязательный параметр
-  “phone”,””,
-  “docCode”:””,
-  “docName”:””,
-  “docNumber”:””,
-  “docDate”:””,
-  “citizenshipCode”:””,
-  “isIdentified”:”true” //пример
-}
+    /**
+     * This method add new User
      */
+    @ApiOperation(value = "Add new user", httpMethod = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success", response = String.class),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Failure")})
+    @PostMapping("/save")
+    public ResponseEntity user(@RequestBody UserView userView) {
+        userService.add(userView);
+        return ResponseEntity.status(HttpStatus.OK).body(userView.firstName);
+    }
 
+    /**
+     * This method return user by parameters
+     */
+    @ApiOperation(value = "Get user by parameters", httpMethod = "GET")
+    @PostMapping("/list")
+    public ResponseEntity<List<UserView>> users(@RequestParam(name = "officeId") int officeId,
+                                                @RequestParam(name = "firstName") String firstName,
+                                                @RequestParam(name = "lastName") String lastName,
+                                                @RequestParam(name = "middleName") String middleName,
+                                                @RequestParam(name = "position") String position,
+                                                @RequestParam(name = "documentId") String docId,
+                                                @RequestParam(name = "countryId") String countryId) {
+        List<UserView> userViews = userService.getUser(officeId, firstName, lastName, middleName,
+                position, docId, countryId);
+        return ResponseEntity.ok(userViews);
 
+    }
 
+    /**
+     * This method return user by id
+     */
+    @ApiOperation(value = "Get user by id", httpMethod = "GET")
+    @GetMapping("/{id}")
+    public ResponseEntity<UserView> userById(@PathVariable("id") int id) {
+        UserView byId = userService.getById(id);
+        return ResponseEntity.ok(byId);
+    }
 
-//    /**
-//     * This method returns findAllByOrgNameAndInnAndIsActive users
-//     */
-//    @GetMapping(value = "/user")
-//    @ApiOperation(value = "Get user")
-//    public ResponseEntity getUser() {
-//        return ResponseEntity.ok(userService.getUser());
-//    }
+    /**
+     * This method update of the office details
+     */
+    @PutMapping(value = "/update")
+    @ApiOperation(value = "The update of the User details", tags = "Office")
+    public ResponseEntity updateUser(@RequestBody UserView user) {
+        userService.update(user);
+        return ResponseEntity.ok(user);
+    }
 
 }

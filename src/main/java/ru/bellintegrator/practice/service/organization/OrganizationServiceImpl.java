@@ -35,8 +35,9 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public void update(OrganizationView organizationView) {
-
+    @Transactional
+    public int update(OrganizationView organizationView) {
+        return organizationDao.update(organizationView);
     }
 
     @Override

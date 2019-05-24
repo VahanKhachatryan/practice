@@ -1,5 +1,7 @@
 package ru.bellintegrator.practice.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -34,14 +36,16 @@ public class Organization {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinTable(
             name = "OFFICE_ORGANIZATION",
             joinColumns = {@JoinColumn(name = "organization_id")},
             inverseJoinColumns = {@JoinColumn(name = "office_id")})
+    @JsonBackReference
     private Set<Office> offices = new HashSet<>();
 
-    public Organization(String name, String fullName, String inn, String kpp, String address, String phone, Boolean isActive, Set<Office> offices) {
+    public Organization(String name, String fullName, String inn, String kpp, String address, String phone,
+                        Boolean isActive, Set<Office> offices) {
         this.name = name;
         this.fullName = fullName;
         this.inn = inn;

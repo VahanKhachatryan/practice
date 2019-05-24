@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS Organization
 );
 COMMENT ON TABLE Organization IS 'Organization table';
 CREATE INDEX IX_Organization_Id ON Organization ("id");
-CREATE SEQUENCE IF NOT EXISTS Organization_sequence START WITH 3;
+-- CREATE SEQUENCE IF NOT EXISTS Organization_sequence START WITH 3;
 /*
  * This is an 'OFFICE' table.
  * The table has a connection with the table 'OFFICE_ORGANIZATION'
@@ -26,13 +26,13 @@ CREATE TABLE IF NOT EXISTS Office
   "id"        INTEGER     NOT NULL COMMENT 'Unique office identifier' PRIMARY KEY AUTO_INCREMENT,
   "version"   INTEGER     NOT NULL COMMENT 'Service field hibernate',
   "name"      VARCHAR(50) NOT NULL COMMENT 'Office name',
-  "address"   VARCHAR(50) NOT NULL COMMENT 'Office addres',
+  "address"   VARCHAR(50) NOT NULL COMMENT 'Office address',
   "phone"     VARCHAR(15) NOT NULL COMMENT 'Office phone',
   "is_active" BOOLEAN     NOT NULL COMMENT 'Office is Active',
 );
 COMMENT ON TABLE Office IS 'Office table';
 CREATE INDEX IX_Office_Id ON Office ("id");
-CREATE SEQUENCE IF NOT EXISTS Office_sequence START WITH 3;
+-- CREATE SEQUENCE IF NOT EXISTS Office_sequence START WITH 3;
 /*
  * This is a many-to-many join table 'OFFICE_ORGANIZATION'.
  * It connects the 'ORGANIZATION' table and 'OFFICE'
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS Document
 
 COMMENT ON TABLE Document IS 'Document table';
 CREATE INDEX IX_Document_Id ON Document ("id");
-CREATE SEQUENCE IF NOT EXISTS Document_sequence START WITH 20;
+-- CREATE SEQUENCE IF NOT EXISTS Document_sequence START WITH 1;
 
 /*
  * This is an 'COUNTRY' table.
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS Country
 
 COMMENT ON TABLE Country IS 'Country table';
 CREATE INDEX IX_Country_Id ON Country ("id");
-CREATE SEQUENCE IF NOT EXISTS Country_sequence START WITH 252;
+-- CREATE SEQUENCE IF NOT EXISTS Country_sequence START WITH 1;
 
 /*
  * This is an 'USER' table.
@@ -114,4 +114,4 @@ CREATE INDEX IX_User_Id ON User ("id");
 CREATE INDEX IX_User_Country_Id ON User ("country_id");
 CREATE INDEX IX_User_Document_Id ON User ("country_id");
 CREATE INDEX IX_User_Office_Id ON User ("office_id");
-CREATE SEQUENCE IF NOT EXISTS User_sequence START WITH 15;
+-- CREATE SEQUENCE IF NOT EXISTS User_sequence START WITH 1;

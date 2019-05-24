@@ -14,7 +14,6 @@ import java.util.List;
 
 /**
  * Document controller
- * This  rest controller is responsible for findAllByOrgNameAndInnAndIsActive the methods for the model: "Document    "
  */
 @Api(value = "DocumentController", description = "Управление информацией о документах")
 @RestController
@@ -30,7 +29,7 @@ public class DocumentController {
     /**
      * This method returns all documents
      */
-    @ApiOperation(value = "Получить список всех документов", httpMethod = "GET")
+    @ApiOperation(value = "Get all documents", httpMethod = "GET")
     @GetMapping("/documents")
     public ResponseEntity<List<DocumentView>> documents() {
         List<DocumentView> documents = documentService.documents();

@@ -1,90 +1,76 @@
 package ru.bellintegrator.practice.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import ru.bellintegrator.practice.service.office.OfficeService;
+import ru.bellintegrator.practice.view.OfficeView;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
  * Office controller
- * This  rest controller is responsible for findAllByOrgNameAndInnAndIsActive the methods for the model: "Office"
  */
+@Api(value = "OfficeController", description = "Управление информацией об оффисах")
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/office", produces = APPLICATION_JSON_VALUE)
 public class OfficeController {
-/*todo
-5. api/office/list
-In (фильтр):
-{
-  “orgId”:””, //обязательный параметр
-  “name”:””,
-  “phone”:””,
-  “isActive”
-}
+    private final OfficeService officeService;
 
-Out:
-[
-  {
-    “id”:””,
-    “name”:””,
-    “isActive”:”true”
-  },
-  ...
-]
+    public OfficeController(OfficeService officeService) {
+        this.officeService = officeService;
+    }
 
-6. api/office/{id}
-method:GET
-Out:
-{
-  “id”:””,
-  “name”:””,
-  “address”:””,
-  “phone”,””,
-  “isActive”:”true”
-}
-7. api/office/update
-In:
-{
-  “id”:””, //обязательный параметр
-  “name”:””, //обязательный параметр
-  “address”:””, //обязательный параметр
-  “phone”,””,
-  “isActive”:”true” //пример
-}
+    /**
+     * This method add Office
+     */
+    @ApiOperation(value = "Add office", httpMethod = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success", response = String.class),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 500, message = "Failure")})
+    @PostMapping("/save")
+    public ResponseEntity office(@RequestBody OfficeView officeView) {
+        officeService.add(officeView);
+        return ResponseEntity.status(HttpStatus.OK).body(officeView.name);
+    }
 
-Out:
-{
-    “result”:”success”
-}
+    /**
+     * This method return office by parameters
+     */
+    @ApiOperation(value = "Get office by parameters", httpMethod = "GET")
+    @PostMapping("/list")
+    public ResponseEntity<OfficeView> offices(@RequestParam String name,
+                                              @RequestParam String phone,
+                                              @RequestParam Boolean isActive) {
+        OfficeView officeList = officeService.getOfficeList(name, phone, isActive);
+        return ResponseEntity.ok(officeList);
 
-8. api/office/save
-In:
-{
-  “orgId”:””, //обязательный параметр
-  “name”:””,
-  “address”:””,
-  “phone”,””,
-  “isActive”:”true”
-}
+    }
 
-Out:
-{
-    “result”:”success”
-}
+    /**
+     * This method return office by id
+     */
+    @ApiOperation(value = "Get office by id", httpMethod = "GET")
+    @GetMapping("/{id}")
+    public ResponseEntity<OfficeView> officeById(@PathVariable("id") int id) {
+        OfficeView officeById = officeService.getOfficeById(id);
+        return ResponseEntity.ok(officeById);
+    }
 
- */
-
-
-
-//
-//    private OfficeService officeService = new OfficeService();
-//
-//    /**
-//     * This method returns findAllByOrgNameAndInnAndIsActive offices
-//     */
-//    @GetMapping(value = "/office")
-//    @ApiOperation(value = "Get office")
-//    public ResponseEntity getOffice() {
-//        return ResponseEntity.ok(officeService.getOffice());
-//    }
+    /**
+     * This method return update of the office details
+     */
+    @PutMapping(value = "/update")
+    @ApiOperation(value = "The update of the office details", tags = "Office")
+    public ResponseEntity updateOffice(@RequestBody OfficeView office) {
+        officeService.update(office);
+        return ResponseEntity.ok("update");
+    }
 
 
 }

@@ -21,9 +21,7 @@ public class CountryDaoImpl implements CountryDao {
     }
 
 
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
     public List<Country> all() {
         TypedQuery<Country> query = manager.createQuery("SELECT c FROM Country c", Country.class);
