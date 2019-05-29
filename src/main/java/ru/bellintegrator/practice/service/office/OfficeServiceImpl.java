@@ -24,9 +24,9 @@ public class OfficeServiceImpl implements OfficeService {
 
 
     @Override
-    public OfficeView getOfficeList(String name, String phone, Boolean isActive) {
+    public List<OfficeView> getOfficeList(String name, String phone, Boolean isActive) {
         List<Office> all = officeDao.findAll(name, phone, isActive);
-        return mapperFacade.map(all, OfficeView.class);
+        return mapperFacade.mapAsList(all, OfficeView.class);
     }
 
     @Override

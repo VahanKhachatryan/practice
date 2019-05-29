@@ -17,11 +17,14 @@ public class User {
     @Version
     private int version;
     @ManyToOne
+    @JoinColumn(name = "country_id")
     private Country country;
     @ManyToOne
+    @JoinColumn(name = "document_id")
     private Document document;
     @ManyToOne
     @JsonManagedReference
+    @JoinColumn(name = "office_id")
     private Office office;
     @Column(name = "first_name")
     private String firstName;
@@ -49,6 +52,16 @@ public class User {
     }
 
     public User() {
+    }
+
+    public User(Country country, Document document, Office office, String firstName, String middleName, String secondName, String position) {
+        this.country = country;
+        this.document = document;
+        this.office = office;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.secondName = secondName;
+        this.position = position;
     }
 
     public int getId() {

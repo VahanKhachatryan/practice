@@ -44,13 +44,13 @@ public class UserController {
     @PostMapping("/list")
     public ResponseEntity<List<UserView>> users(@RequestParam(name = "officeId") int officeId,
                                                 @RequestParam(name = "firstName") String firstName,
-                                                @RequestParam(name = "lastName") String lastName,
                                                 @RequestParam(name = "middleName") String middleName,
+                                                @RequestParam(name = "secondName") String secondName,
                                                 @RequestParam(name = "position") String position,
-                                                @RequestParam(name = "documentId") String docId,
-                                                @RequestParam(name = "countryId") String countryId) {
-        List<UserView> userViews = userService.getUser(officeId, firstName, lastName, middleName,
-                position, docId, countryId);
+                                                @RequestParam(name = "documentCode") String documentCode,
+                                                @RequestParam(name = "countryCode") String countryCode) {
+        List<UserView> userViews = userService.getUser(officeId, firstName, middleName,secondName,
+                position, documentCode, countryCode);
         return ResponseEntity.ok(userViews);
 
     }

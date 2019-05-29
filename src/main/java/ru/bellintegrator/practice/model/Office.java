@@ -51,6 +51,12 @@ public class Office {
         this.isActive = isActive;
     }
 
+    public Office(String name, String phone, Boolean isActive) {
+        this.name = name;
+        this.phone = phone;
+        this.isActive = isActive;
+    }
+
     public int getId() {
         return id;
     }

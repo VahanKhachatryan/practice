@@ -24,9 +24,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserView> getUser(int officeId, String firstName, String lastName,
-                                  String middleName, String position, String docCode, String countryCode) {
-        List<User> users = userDao.findAll(officeId, firstName, lastName, middleName, position, docCode, countryCode);
+    public List<UserView> getUser(int officeId, String firstName,
+                                  String middleName, String secondName, String position, String docCode, String countryCode) {
+        List<User> users = userDao.findAll(officeId, firstName,  middleName,secondName, position, docCode, countryCode);
         return mapperFacade.mapAsList(users, UserView.class);
     }
 

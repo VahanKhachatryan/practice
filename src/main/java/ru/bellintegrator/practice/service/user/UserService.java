@@ -8,7 +8,7 @@ import java.util.List;
 
 @Validated
 public interface UserService {
-    List<UserView> getUser(int officeId, String firstName, String lastName, String middleName,
+    List<UserView> getUser(int officeId, String firstName,  String middleName,String secondName,
                            String position, String docCode, String countryCode);
 
     UserView getById(int id);

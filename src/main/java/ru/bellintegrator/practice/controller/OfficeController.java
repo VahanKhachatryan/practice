@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.bellintegrator.practice.service.office.OfficeService;
 import ru.bellintegrator.practice.view.OfficeView;
 
+import java.util.List;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
@@ -44,10 +46,10 @@ public class OfficeController {
      */
     @ApiOperation(value = "Get office by parameters", httpMethod = "GET")
     @PostMapping("/list")
-    public ResponseEntity<OfficeView> offices(@RequestParam String name,
-                                              @RequestParam String phone,
-                                              @RequestParam Boolean isActive) {
-        OfficeView officeList = officeService.getOfficeList(name, phone, isActive);
+    public ResponseEntity<List<OfficeView>> offices(@RequestParam String name,
+                                                    @RequestParam String phone,
+                                                    @RequestParam Boolean isActive) {
+        List<OfficeView> officeList = officeService.getOfficeList(name, phone, isActive);
         return ResponseEntity.ok(officeList);
 
     }

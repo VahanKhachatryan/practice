@@ -2,8 +2,10 @@ package ru.bellintegrator.practice.service.office;
 
 import ru.bellintegrator.practice.view.OfficeView;
 
+import java.util.List;
+
 public interface OfficeService {
-    OfficeView getOfficeList(String name, String phone, Boolean isActive);
+    List<OfficeView> getOfficeList(String name, String phone, Boolean isActive);
 
     OfficeView getOfficeById(int id);
 

@@ -9,9 +9,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -24,7 +22,7 @@ public class UserDaoImpl implements UserDao {
 
 
     @Override
-    public List<User> findAll(int officeId, String firstName, String lastName, String middleName, String position,
+    public List<User> findAll(int officeId, String firstName, String secondName, String middleName, String position,
                               String docCode, String countryCode) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
@@ -32,12 +30,11 @@ public class UserDaoImpl implements UserDao {
 
         criteriaQuery.where(builder.equal(root.get("office").get("id"), officeId));
 
-        criteriaQuery.where(root.get("officeId").in(officeId));
         if (firstName != null) {
             criteriaQuery.where(root.get("firstName").in(firstName));
         }
-        if (lastName != null) {
-            criteriaQuery.where(root.get("lastName").in(lastName));
+        if (secondName != null) {
+            criteriaQuery.where(root.get("secondName").in(secondName));
         }
         if (middleName != null) {
             criteriaQuery.where(root.get("middleName").in(middleName));
@@ -53,8 +50,8 @@ public class UserDaoImpl implements UserDao {
         }
 
         criteriaQuery.select(builder.construct(User.class,
-                root.get("officeId"), root.get("firstName"), root.get("lastName"), root.get("middleName"),
-                root.get("position"), root.get("documentId"), root.get("countryCode")));
+                root.get("office").get("id"), root.get("firstName"), root.get("secondName"), root.get("middleName"),
+                root.get("position"), root.get("document").get("code"), root.get("country").get("code")));
         TypedQuery<User> query = manager.createQuery(criteriaQuery);
         return query.getResultList();
 
