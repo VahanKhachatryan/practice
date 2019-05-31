@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.bellintegrator.practice.exception.ThereIsNoSuchElementException;
 import ru.bellintegrator.practice.service.document.DocumentService;
 import ru.bellintegrator.practice.view.DocumentView;
 
@@ -33,6 +34,9 @@ public class DocumentController {
     @GetMapping("/documents")
     public ResponseEntity<List<DocumentView>> documents() {
         List<DocumentView> documents = documentService.documents();
+        if (documents==null){
+            throw new ThereIsNoSuchElementException();
+        }
         return ResponseEntity.ok(documents);
 
     }

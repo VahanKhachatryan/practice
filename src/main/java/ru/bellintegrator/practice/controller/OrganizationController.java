@@ -7,9 +7,11 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.bellintegrator.practice.exception.ThereIsNoSuchElementException;
 import ru.bellintegrator.practice.service.organization.OrganizationService;
 import ru.bellintegrator.practice.view.OrganizationView;
 
+import java.io.InvalidObjectException;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -37,6 +39,9 @@ public class OrganizationController {
             @ApiResponse(code = 500, message = "Failure")})
     @PostMapping("/save")
     public ResponseEntity organization(@RequestBody OrganizationView organizationView) {
+        if (organizationView==null){
+            throw new ThereIsNoSuchElementException();
+        }
         organizationService.add(organizationView);
         return ResponseEntity.status(HttpStatus.OK).body(organizationView.name);
     }
@@ -50,6 +55,9 @@ public class OrganizationController {
                                                                 @RequestParam(name = "inn") String inn,
                                                                 @RequestParam(name = "isActive") Boolean isActive) {
         List<OrganizationView> organizations = organizationService.getOrgList(name, inn, isActive);
+        if (organizations==null){
+            throw new ThereIsNoSuchElementException();
+        }
         return ResponseEntity.ok(organizations);
 
     }
@@ -62,6 +70,9 @@ public class OrganizationController {
     @GetMapping("/{id}")
     public ResponseEntity<OrganizationView> organizationById(@PathVariable("id") int id) {
         OrganizationView orgById = organizationService.getOrgById(id);
+        if (orgById==null){
+            throw new ThereIsNoSuchElementException();
+        }
         return ResponseEntity.ok(orgById);
 
 
@@ -74,6 +85,9 @@ public class OrganizationController {
     @ApiOperation(value = "The update of the organization details", tags = "Organization")
     public ResponseEntity updateOrganization(@RequestBody OrganizationView organizationView) {
         organizationService.update(organizationView);
+        if (organizationView==null){
+            throw new ThereIsNoSuchElementException();
+        }
         return ResponseEntity.ok(organizationView);
     }
 }

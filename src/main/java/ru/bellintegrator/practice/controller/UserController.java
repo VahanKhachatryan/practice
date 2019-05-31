@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.bellintegrator.practice.exception.ThereIsNoSuchElementException;
 import ru.bellintegrator.practice.service.user.UserService;
 import ru.bellintegrator.practice.view.UserView;
 
@@ -33,6 +34,9 @@ public class UserController {
             @ApiResponse(code = 500, message = "Failure")})
     @PostMapping("/save")
     public ResponseEntity user(@RequestBody UserView userView) {
+        if (userView==null){
+            throw new ThereIsNoSuchElementException();
+        }
         userService.add(userView);
         return ResponseEntity.status(HttpStatus.OK).body(userView.firstName);
     }
@@ -51,6 +55,9 @@ public class UserController {
                                                 @RequestParam(name = "countryCode") String countryCode) {
         List<UserView> userViews = userService.getUser(officeId, firstName, middleName,secondName,
                 position, documentCode, countryCode);
+        if (userViews== null) {
+            throw new ThereIsNoSuchElementException();
+        }
         return ResponseEntity.ok(userViews);
 
     }
@@ -62,6 +69,9 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserView> userById(@PathVariable("id") int id) {
         UserView byId = userService.getById(id);
+        if (byId == null) {
+            throw new ThereIsNoSuchElementException();
+        }
         return ResponseEntity.ok(byId);
     }
 

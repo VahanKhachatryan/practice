@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.bellintegrator.practice.exception.ThereIsNoSuchElementException;
 import ru.bellintegrator.practice.service.country.CountryService;
 import ru.bellintegrator.practice.view.CountryView;
 
@@ -33,7 +34,11 @@ public class CountryController {
     @ApiOperation(value = "Get all countries", httpMethod = "GET")
     @GetMapping("/countries")
     public ResponseEntity<List<CountryView>> countries() {
+
         List<CountryView> countries = countryService.countries();
+        if (countries==null){
+            throw new ThereIsNoSuchElementException();
+        }
         return ResponseEntity.ok(countries);
 
     }

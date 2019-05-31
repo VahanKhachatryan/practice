@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.bellintegrator.practice.exception.ThereIsNoSuchElementException;
 import ru.bellintegrator.practice.service.office.OfficeService;
 import ru.bellintegrator.practice.view.OfficeView;
 
@@ -37,6 +38,9 @@ public class OfficeController {
             @ApiResponse(code = 500, message = "Failure")})
     @PostMapping("/save")
     public ResponseEntity office(@RequestBody OfficeView officeView) {
+        if (officeView==null){
+            throw new ThereIsNoSuchElementException();
+        }
         officeService.add(officeView);
         return ResponseEntity.status(HttpStatus.OK).body(officeView.name);
     }
@@ -50,6 +54,9 @@ public class OfficeController {
                                                     @RequestParam String phone,
                                                     @RequestParam Boolean isActive) {
         List<OfficeView> officeList = officeService.getOfficeList(name, phone, isActive);
+        if (officeList==null){
+            throw new ThereIsNoSuchElementException();
+        }
         return ResponseEntity.ok(officeList);
 
     }
@@ -61,6 +68,9 @@ public class OfficeController {
     @GetMapping("/{id}")
     public ResponseEntity<OfficeView> officeById(@PathVariable("id") int id) {
         OfficeView officeById = officeService.getOfficeById(id);
+        if (officeById==null){
+            throw new ThereIsNoSuchElementException();
+        }
         return ResponseEntity.ok(officeById);
     }
 
@@ -70,6 +80,9 @@ public class OfficeController {
     @PutMapping(value = "/update")
     @ApiOperation(value = "The update of the office details", tags = "Office")
     public ResponseEntity updateOffice(@RequestBody OfficeView office) {
+        if (office==null){
+            throw new ThereIsNoSuchElementException();
+        }
         officeService.update(office);
         return ResponseEntity.ok("update");
     }
